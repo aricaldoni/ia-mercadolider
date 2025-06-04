@@ -135,7 +135,7 @@ const ContactSection = () => {
               </div>
               
               <div>
-                <Input name="email" type="email" placeholder="Tu email *" value={formData.email} onChange={handleInputChange} required disabled={isSubmitting} className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none bg-slate-950" />
+                <Input name="email" type="email" placeholder="Tu email *" value={formData.email} onChange={handleInputChange} required disabled={isSubmitting} className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none bg-slate-800" />
               </div>
               
               <div>
