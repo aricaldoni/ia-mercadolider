@@ -139,7 +139,7 @@ const ContactSection = () => {
               </div>
               
               <div>
-                <Input name="phone" type="tel" placeholder="Tu teléfono (opcional)" value={formData.phone} onChange={handleInputChange} disabled={isSubmitting} className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none bg-slate-950" />
+                <Input name="phone" type="tel" placeholder="Tu teléfono (opcional)" value={formData.phone} onChange={handleInputChange} disabled={isSubmitting} className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none bg-slate-800" />
               </div>
               
               <div>
