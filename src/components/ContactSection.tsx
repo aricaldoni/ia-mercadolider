@@ -157,9 +157,7 @@ const ContactSection = () => {
           <p className="text-2xl font-bold text-yellow-400 mb-2">
             Automatizá, vendé más, disfrutá tu tiempo.
           </p>
-          <p className="text-blue-100">
-            © 2024 AutomataIA - Agencia de Automatizaciones para E-commerce
-          </p>
+          <p className="text-blue-100">© 2024 AutomataIA - Agencia Argentina de Automatizaciones para E-commerce</p>
         </div>
       </div>
     </section>;
