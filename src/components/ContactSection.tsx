@@ -131,7 +131,7 @@ const ContactSection = () => {
           <div className="bg-white p-8 rounded-2xl shadow-2xl">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <Input name="name" placeholder="Tu nombre *" value={formData.name} onChange={handleInputChange} required disabled={isSubmitting} className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none bg-slate-950" />
+                <Input name="name" placeholder="Tu nombre *" value={formData.name} onChange={handleInputChange} required disabled={isSubmitting} className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none bg-slate-800" />
               </div>
               
               <div>
