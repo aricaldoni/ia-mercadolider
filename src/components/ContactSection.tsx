@@ -5,128 +5,49 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, Zap } from "lucide-react";
-import { validateContactForm, type ContactFormData, type ValidationError } from "@/utils/validation";
-import { sanitizeHtml, rateLimiter } from "@/utils/security";
 
 const ContactSection = () => {
-  const [formData, setFormData] = useState<ContactFormData>({
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     message: ''
   });
-  
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    
-    // Clear field error when user starts typing
-    if (fieldErrors[name]) {
-      setFieldErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors[name];
-        return newErrors;
-      });
-    }
-    
-    // Basic input length validation on change
-    let sanitizedValue = value;
-    
-    if (name === 'name' && value.length > 100) {
-      sanitizedValue = value.substring(0, 100);
-    } else if (name === 'email' && value.length > 254) {
-      sanitizedValue = value.substring(0, 254);
-    } else if (name === 'phone' && value.length > 20) {
-      sanitizedValue = value.substring(0, 20);
-    } else if (name === 'message' && value.length > 2000) {
-      sanitizedValue = value.substring(0, 2000);
-    }
-    
     setFormData(prev => ({
       ...prev,
-      [name]: sanitizedValue
+      [name]: value
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Prevent double submission
-    if (isSubmitting) return;
-    
-    // Rate limiting check
-    const clientId = 'contact_form'; // In a real app, you'd use IP or user ID
-    if (!rateLimiter.isAllowed(clientId, 3, 300000)) { // 3 attempts per 5 minutes
+    if (!formData.name || !formData.email) {
       toast({
-        title: "Demasiados intentos",
-        description: "Por favor esperá unos minutos antes de enviar otro mensaje.",
+        title: "Error",
+        description: "Por favor completá tu nombre y email.",
         variant: "destructive",
       });
       return;
     }
-    
-    setIsSubmitting(true);
-    setFieldErrors({});
-    
-    try {
-      // Validate form data
-      const validation = validateContactForm(formData);
-      
-      if (!validation.isValid) {
-        const errors: Record<string, string> = {};
-        validation.errors.forEach((error: ValidationError) => {
-          errors[error.field] = error.message;
-        });
-        setFieldErrors(errors);
-        
-        toast({
-          title: "Error en el formulario",
-          description: "Por favor corregí los errores indicados.",
-          variant: "destructive",
-        });
-        return;
-      }
 
-      // Use sanitized data for logging/processing
-      const sanitizedData = validation.sanitizedData!;
-      
-      console.log('Formulario validado y sanitizado:', {
-        name: sanitizeHtml(sanitizedData.name),
-        email: sanitizedData.email,
-        phone: sanitizedData.phone ? sanitizeHtml(sanitizedData.phone) : undefined,
-        message: sanitizedData.message ? sanitizeHtml(sanitizedData.message) : undefined,
-        timestamp: new Date().toISOString()
-      });
-      
-      // Simulate form submission delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast({
-        title: "¡Mensaje enviado!",
-        description: "Te contactaremos pronto para programar tu reunión sin cargo.",
-      });
+    console.log('Formulario enviado:', formData);
+    
+    toast({
+      title: "¡Mensaje enviado!",
+      description: "Te contactaremos pronto para programar tu reunión sin cargo.",
+    });
 
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        message: ''
-      });
-      
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      toast({
-        title: "Error",
-        description: "Hubo un problema al enviar el mensaje. Por favor intentá nuevamente.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      message: ''
+    });
   };
 
   return (
@@ -179,27 +100,16 @@ const ContactSection = () => {
           </div>
           
           <div className="bg-white p-8 rounded-2xl shadow-2xl">
-            <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <Input
                   name="name"
                   placeholder="Tu nombre *"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none transition-colors ${
-                    fieldErrors.name 
-                      ? 'border-red-500 focus:border-red-600' 
-                      : 'border-gray-300 focus:border-blue-600'
-                  }`}
+                  className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
                   required
-                  maxLength={100}
-                  aria-describedby={fieldErrors.name ? "name-error" : undefined}
                 />
-                {fieldErrors.name && (
-                  <p id="name-error" className="text-red-500 text-sm mt-1" role="alert">
-                    {fieldErrors.name}
-                  </p>
-                )}
               </div>
               
               <div>
@@ -209,20 +119,9 @@ const ContactSection = () => {
                   placeholder="Tu email *"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none transition-colors ${
-                    fieldErrors.email 
-                      ? 'border-red-500 focus:border-red-600' 
-                      : 'border-gray-300 focus:border-blue-600'
-                  }`}
+                  className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
                   required
-                  maxLength={254}
-                  aria-describedby={fieldErrors.email ? "email-error" : undefined}
                 />
-                {fieldErrors.email && (
-                  <p id="email-error" className="text-red-500 text-sm mt-1" role="alert">
-                    {fieldErrors.email}
-                  </p>
-                )}
               </div>
               
               <div>
@@ -232,19 +131,8 @@ const ContactSection = () => {
                   placeholder="Tu teléfono (opcional)"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none transition-colors ${
-                    fieldErrors.phone 
-                      ? 'border-red-500 focus:border-red-600' 
-                      : 'border-gray-300 focus:border-blue-600'
-                  }`}
-                  maxLength={20}
-                  aria-describedby={fieldErrors.phone ? "phone-error" : undefined}
+                  className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
                 />
-                {fieldErrors.phone && (
-                  <p id="phone-error" className="text-red-500 text-sm mt-1" role="alert">
-                    {fieldErrors.phone}
-                  </p>
-                )}
               </div>
               
               <div>
@@ -253,31 +141,17 @@ const ContactSection = () => {
                   placeholder="¿En qué te podemos ayudar? (opcional)"
                   value={formData.message}
                   onChange={handleInputChange}
-                  className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none transition-colors ${
-                    fieldErrors.message 
-                      ? 'border-red-500 focus:border-red-600' 
-                      : 'border-gray-300 focus:border-blue-600'
-                  }`}
+                  className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none min-h-[120px]"
                   rows={4}
-                  maxLength={2000}
-                  aria-describedby={fieldErrors.message ? "message-error" : undefined}
                 />
-                {fieldErrors.message && (
-                  <p id="message-error" className="text-red-500 text-sm mt-1" role="alert">
-                    {fieldErrors.message}
-                  </p>
-                )}
               </div>
               
               <Button
                 type="submit"
                 size="lg"
-                disabled={isSubmitting}
-                className={`w-full bg-blue-600 hover:bg-blue-700 text-white py-4 text-lg font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 ${
-                  isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                }`}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
               >
-                {isSubmitting ? 'Enviando...' : 'Enviar Consulta'}
+                Enviar Consulta
               </Button>
             </form>
           </div>
@@ -288,7 +162,7 @@ const ContactSection = () => {
             Automatizá, vendé más, disfrutá tu tiempo.
           </p>
           <p className="text-blue-100">
-            © {new Date().getFullYear()} AutomataIA - Agencia de Automatizaciones para E-commerce
+            © 2024 AutomataIA - Agencia de Automatizaciones para E-commerce
           </p>
         </div>
       </div>

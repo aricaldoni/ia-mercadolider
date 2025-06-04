@@ -3,16 +3,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 const HeroSection = () => {
-  const scrollToContact = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    
-    // Securely select the element
+  const scrollToContact = () => {
     const contactSection = document.getElementById('contacto');
-    
-    // Check if element exists before scrolling
-    if (contactSection instanceof HTMLElement) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    contactSection?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -34,10 +27,9 @@ const HeroSection = () => {
             onClick={scrollToContact}
             size="lg" 
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-            aria-label="Solicitar reunión sin cargo"
           >
             Solicitá una reunión sin cargo
-            <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+            <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </div>
         
@@ -46,7 +38,6 @@ const HeroSection = () => {
             src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
             alt="Persona trabajando eficientemente con tecnología"
             className="w-full max-w-4xl mx-auto rounded-2xl shadow-2xl"
-            loading="lazy"
           />
         </div>
       </div>
