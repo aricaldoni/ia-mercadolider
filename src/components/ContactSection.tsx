@@ -143,7 +143,7 @@ const ContactSection = () => {
               </div>
               
               <div>
-                <Textarea name="message" placeholder="¿En qué te podemos ayudar? (opcional)" value={formData.message} onChange={handleInputChange} rows={4} disabled={isSubmitting} className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none min-h-[120px] bg-slate-950" />
+                <Textarea name="message" placeholder="¿En qué te podemos ayudar? (opcional)" value={formData.message} onChange={handleInputChange} rows={4} disabled={isSubmitting} className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none min-h-[120px] bg-slate-800" />
               </div>
               
               <Button type="submit" size="lg" disabled={isSubmitting} className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:transform-none disabled:hover:scale-100">
