@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, Zap } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const ContactSection = () => {
     phone: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -23,7 +25,7 @@ const ContactSection = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.email) {
@@ -35,19 +37,52 @@ const ContactSection = () => {
       return;
     }
 
-    console.log('Formulario enviado:', formData);
-    
-    toast({
-      title: "¡Mensaje enviado!",
-      description: "Te contactaremos pronto para programar tu reunión sin cargo.",
-    });
+    setIsSubmitting(true);
 
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      message: ''
-    });
+    try {
+      const { error } = await supabase
+        .from('contact_leads')
+        .insert({
+          nombre: formData.name,
+          email: formData.email,
+          telefono: formData.phone || null,
+          mensaje: formData.message || null,
+        });
+
+      if (error) {
+        console.error('Error inserting contact lead:', error);
+        toast({
+          title: "Error",
+          description: "Error al enviar el formulario. Por favor, intentá de nuevo más tarde.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Mostrar mensaje de éxito
+      toast({
+        title: "¡Mensaje enviado!",
+        description: "Te contactaremos pronto para programar tu reunión sin cargo.",
+      });
+
+      // Limpiar formulario
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        message: ''
+      });
+
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      toast({
+        title: "Error",
+        description: "Error al enviar el formulario. Por favor, intentá de nuevo más tarde.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -109,6 +144,7 @@ const ContactSection = () => {
                   onChange={handleInputChange}
                   className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
                   required
+                  disabled={isSubmitting}
                 />
               </div>
               
@@ -121,6 +157,7 @@ const ContactSection = () => {
                   onChange={handleInputChange}
                   className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
                   required
+                  disabled={isSubmitting}
                 />
               </div>
               
@@ -132,6 +169,7 @@ const ContactSection = () => {
                   value={formData.phone}
                   onChange={handleInputChange}
                   className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                  disabled={isSubmitting}
                 />
               </div>
               
@@ -143,15 +181,17 @@ const ContactSection = () => {
                   onChange={handleInputChange}
                   className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none min-h-[120px]"
                   rows={4}
+                  disabled={isSubmitting}
                 />
               </div>
               
               <Button
                 type="submit"
                 size="lg"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                disabled={isSubmitting}
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:transform-none disabled:hover:scale-100"
               >
-                Enviar Consulta
+                {isSubmitting ? "Enviando..." : "Enviar Consulta"}
               </Button>
             </form>
           </div>
