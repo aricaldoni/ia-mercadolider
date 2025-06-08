@@ -7,12 +7,12 @@ const SolutionSection = () => {
     {
       icon: Bot,
       title: "Respuestas Automáticas",
-      description: "Preguntas frecuentes de Mercado Libre: ¡que la IA las responda por vos, al toque!"
+      description: "Preguntas frecuentes de Mercado Libre: ¡Que la IA las responda por vos, en segundos!"
     },
     {
       icon: Package,
       title: "Gestión de Stock",
-      description: "Control de inventario al día: que tu sistema hable solo con tus proveedores."
+      description: "Control de inventario al día: Que tu sistema hable con tus proveedores."
     },
     {
       icon: FileText,
