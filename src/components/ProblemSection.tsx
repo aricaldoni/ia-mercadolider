@@ -14,7 +14,7 @@ const ProblemSection = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
-            Sabemos que ser <span className="text-yellow-600">Mercadolíder</span> es un laburo a toda orquesta.
+            Sabemos que ser <span className="text-yellow-600">Mercadolíder</span> es un laburo a toda máquina.
           </h2>
           
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
