@@ -12,7 +12,7 @@ const SolutionSection = () => {
     {
       icon: Package,
       title: "Gestión de Stock",
-      description: "Control de inventario al día: Que tu sistema hable con tus proveedores."
+      description: "La IA te ayuda a evitar el sobrestock o la falta de stock en tus canales"
     },
     {
       icon: FileText,
