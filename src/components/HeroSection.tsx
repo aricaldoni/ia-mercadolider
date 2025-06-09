@@ -13,12 +13,12 @@ const HeroSection = () => {
         <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
           ¿Cansado de las tareas que te <span className="text-blue-600">quitan tiempo</span>?
           <br />
-          <span className="text-green-600">Te ayudamos</span> a que tu e-commerce vuele.
+          <span className="text-green-600">Te ayudamos</span> a que tu Tienda Online vuele.
         </h1>
         
         <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
-          Automatizá tu operación con Inteligencia Artificial y dedicá tu energía a lo que mejor sabés hacer: 
-          <strong className="text-blue-700"> vender en Mercado Libre.</strong>
+          Automatizá tu operación y dedicá tu energía a lo que mejor sabés hacer: 
+          <strong className="text-blue-700"> vender Online.</strong>
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
