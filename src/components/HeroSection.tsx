@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+
 const HeroSection = () => {
   const scrollToContact = () => {
     const contactSection = document.getElementById('contacto');
@@ -12,7 +13,7 @@ const HeroSection = () => {
         <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
           ¿Cansado de las tareas que te <span className="text-blue-600">quitan tiempo</span>?
           <br />
-          <span className="text-green-600">Te ayudamos</span> te ayuda a que tu e-commerce vuele.
+          <span className="text-green-600">Te ayudamos</span> a que tu e-commerce vuele.
         </h1>
         
         <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
@@ -33,4 +34,5 @@ const HeroSection = () => {
       </div>
     </section>;
 };
+
 export default HeroSection;
