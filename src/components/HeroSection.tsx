@@ -13,7 +13,7 @@ const HeroSection = () => {
         <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
           ¿Cansado de las tareas que te <span className="text-blue-600">quitan tiempo</span>?
           <br />
-          <span className="text-green-600">Te ayudamos</span> a que tu Tienda Online vuele.
+          <span className="text-green-600">Mediante Inteligencia Artificial</span> hacemos que tu Tienda vuele.
         </h1>
         
         <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
