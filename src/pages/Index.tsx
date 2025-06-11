@@ -7,6 +7,7 @@ import BenefitsSection from "../components/BenefitsSection";
 import SocialProofSection from "../components/SocialProofSection";
 import FAQSection from "../components/FAQSection";
 import ContactSection from "../components/ContactSection";
+import Footer from "../components/Footer";
 import SchemaMarkup from "../components/SchemaMarkup";
 
 const Index = () => {
@@ -37,6 +38,8 @@ const Index = () => {
           
           <ContactSection />
         </div>
+        
+        <Footer />
       </div>
     </>
   );
